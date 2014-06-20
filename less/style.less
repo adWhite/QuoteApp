@@ -1,0 +1,323 @@
+// ## Dependencies
+
+@import "base";
+@import "hyx";
+@import "effects";
+
+// ## Grid setup
+//
+// @gutter & @width
+
+@gutter: 3%;
+@width: 100%;
+
+.col-1-2 { .cols(12/2); }
+
+.col-8 { .cols(8); }
+.col-8 { .cols(4); }
+
+// ## Colors
+
+@white: #fff;
+@green: #2ECC71;
+@blue: #2980B9;
+@blue-dark: #34495E;
+
+// ## Modules
+
+.button(@bg-color, @txt-color) {
+    margin: 0 auto;
+    padding: 1em 2em;
+    background-color: @bg-color;
+    color: @txt-color;
+    border-radius: 4px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+
+    &:hover {
+        background-color: darken(@bg-color, 5%);
+    }
+}
+
+.btn {
+    .button(#333, #fff);
+}
+
+.btn-s {
+    font-size: 0.618em;
+}
+
+.btn-m {
+    font-size: 1em;
+}
+
+.btn-b {
+    font-size: 1.618em;
+}
+
+.btn-green {
+    .button(@green, #fff); 
+}
+
+.btn-blue {
+    .button(@blue, #fff);
+}
+
+.btn-blue-dark {
+    .button(@blue-dark, #fff);
+}
+
+.coverer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%; 
+}
+
+.centerer {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);   
+}
+
+// ## Base 
+
+body {
+    font-family: "Open Sans", sans-serif;
+}
+
+hr {
+    border-color: #eee;
+}
+
+// ## App 
+
+.adWhite-logo {
+    width: 8em;
+}
+
+.app-inner-logo {
+    width: 6em;
+}
+
+// ## Welcome 
+
+.app-title {
+    margin-bottom: 0 !important;
+    font-size: 4em;
+    font-weight: 200;
+}
+
+.app-short-description {
+    margin-top: 0 !important;
+    font-size: 1.618em;
+    font-style: italic;
+}
+
+.app-button-normal,
+.app-button-go-back,
+.app-button-start-again,
+.app-button-start {
+    font-size: 1em;
+    .button(#333, #fff);
+}
+
+.app-estimated-cost {
+    margin-top: 2em;
+    margin-bottom: 2em;
+    font-size: 1.218em;
+}
+
+.app-cost {
+    padding: 0.218em;
+    font-size: 1.618em;
+    background-color: #eee;
+    color: #999;
+    border-radius: 4px;
+}
+
+.app-made-by {
+    color: #999;
+
+    a {
+        color: #555;     
+        text-decoration: none;
+    }
+}
+
+#app {
+    .centerer;
+    width: 65em;
+    text-align: center;
+}
+
+.btn-get-started {
+    text-transform: uppercase;
+
+    .fa {
+        color: darken(@blue, 20%);     
+    }
+}
+
+// ## Icons
+
+.app-feature-icon {
+    width: 6em;
+}
+
+.app-total-icon {
+    width: 4em;
+}
+
+// ## Options View 
+
+.app-options-view-title {
+    margin-top: 0.618em;
+    font-size: 2em;
+    font-weight: 400;
+    color: #888;
+}
+
+// ## Feature
+
+// list
+
+.app-feature {
+    width: 16em;
+	margin-right: 4em;
+	display: inline-block;
+    padding: 0.618em;
+    border-radius: 4px;
+	text-align: center;
+    background-color: #fafafa;
+	cursor: pointer;
+
+    &:last-of-type{
+        margin-right: 0 !important;
+    }
+}
+
+.app-feature-name {
+    margin-bottom: 0;
+    font-weight: 600;
+    color: #333;
+}
+
+.app-feature-price {
+    color: #eee;
+}
+
+// ## Total
+
+.app-total-cost {
+    margin: 2em auto;
+    padding: 1em 2em;
+    font-size: 2em;
+    font-weight: bold;
+    background-color: #eee;
+}
+
+.app-chosen-options {
+    margin-left: 0;
+    list-style: none;
+    text-align: left;
+
+    li {
+        margin-bottom: 0.618em;
+        display: block;    
+    }
+
+    span {
+        margin-top: 1.218em;
+        float: right;     
+    }
+
+    .fa {
+        padding: 0;
+        background-color: #fff;
+    }
+}
+
+.app-total-amount {
+    margin: 1em 0 0 0;
+    padding: 0.618em 1em;
+    font-size: 2em;
+    font-weight: 600;
+    background: #eee;
+    border-radius: 4px;
+}
+
+.asterisk-separator {
+    margin: 1em 0;
+    color: #999;
+
+    .fa {
+        margin-right: 1em;
+
+        &:last-child {
+            margin-right: 0; 
+        }
+    }
+}
+
+.app-total-right,
+.app-total-left {
+    padding: 1em;
+    border-radius: 6px;
+    color: #fff;
+}
+
+.app-total-left {
+    color: #333;
+    background-color: #fbfbfb; 
+}
+
+.app-total-right {
+    color: @blue-dark;
+
+    h3 {
+        margin-top: 1em;     
+        font-weight: 300;
+    }
+}
+
+.app-branding {
+    .app-logo {
+        display: table;
+        margin: 0 auto;     
+    }
+
+    p {
+        text-align: left;     
+    }
+}
+
+.app-form-send-quote {
+    margin: 0 auto;
+    display: table;
+    width: 80%;
+    padding: 1em;
+    background-color: @blue-dark;
+    border-radius: 6px;
+    color: #fff;
+
+    input {
+        width: 100%;
+        margin-bottom: 1em;    
+    }
+
+    input[type="text"] {
+        display: table;
+        padding: 0.618em;
+        border: none;
+        border-radius: 4px;
+        outline: none;
+    }
+
+    input[type="submit"] {
+        margin-bottom: 0;
+    }
+}
