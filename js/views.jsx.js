@@ -52,6 +52,7 @@ var app = app || {};
             // 0 is the first one, instead of 1
             var optionsSize = _.size(app.options) - 1;
 
+            console.log("current: " + this.state.current);
             // if we are in the last section, we are ready to go to the result 
             // route, and do the math
             if (this.state.current < optionsSize) {
@@ -64,6 +65,10 @@ var app = app || {};
         _back: function() {
             // change the length for the array indexing way
             var current = this.state.current - 1;
+
+            if (this.state.current === 0) {
+                this.setState({ total: 0 });
+            }
 
             // go back one number
             this.setState({ current: this.state.current - 1 }); 
