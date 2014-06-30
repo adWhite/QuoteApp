@@ -8,6 +8,7 @@ var app = app || {};
         IndexView = app.IndexView,
         AppView = app.AppView,
         TotalView = app.TotalView,
+        MultiOptionsView = app.MultiOptionsView,
 
         Routes = Backbone.Router.extend({
             routes: {

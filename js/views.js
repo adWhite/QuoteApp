@@ -4,9 +4,14 @@ var app = app || {};
 
 (function(app) {
     var options = app.options,
-        features = app.features;
+        features = app.features,
+        _wordpress = false;
 
     var selectedOptions = new app.SelectedOptions();
+
+    /**
+     * Index View 
+     */
 
     var IndexView = React.createClass({displayName: 'IndexView',
         _start: function() {
@@ -26,6 +31,10 @@ var app = app || {};
             );
         }
     });
+
+    /**
+     * App View 
+     */
 
     // This Component will manage the internal routing for navigation and
     // pricing stuff.
@@ -58,7 +67,7 @@ var app = app || {};
             if (this.state.current < optionsSize) {
                 this.setState({ current: this.state.current + 1 }); 
             } else {
-                location.href = "#total";
+                location.href = "#multi";
             }
         },
 
@@ -66,6 +75,7 @@ var app = app || {};
             // change the length for the array indexing way
             var current = this.state.current - 1;
 
+            // if we get back to route 0, set total to 0
             if (this.state.current === 0) {
                 this.setState({ total: 0 });
             }
@@ -94,6 +104,7 @@ var app = app || {};
 
         _totalPlus: function(num) {
             this.setState({ total: this.state.total + num });   
+            console.log("total: " + this.state.total);
         },
 
         _totalMinus: function(num) {
@@ -106,23 +117,37 @@ var app = app || {};
             } 
         },
 
-        // We pass `_next` method to `OptionsView` Component then to `OptionView`
-        render: function() {
-            return (
-                React.DOM.div( {className:"app-view"}, 
-                    React.DOM.div( {className:"app-estimated-cost"}, React.DOM.span( {className:"app-cost"}, "$",this.state.total)),
+        _renderOptions: function() {
+            if (this.state.current === 4) {
+                return MultiOptionsView( {plus:this._totalPlus} ) 
+            } else {
+                return (     
                     OptionsView( 
                         {data:this._getCurrentData(this.state.current), 
                         current:this.state.current,
                         next:this._next, 
                         plus:this._totalPlus} 
-                    ),
+                    )
+                );
+            }
+        },
 
-                    this._renderBackButton()
+        // We pass `_next` method to `OptionsView` Component then to `OptionView`
+        render: function() {
+            return (
+                React.DOM.div( {className:"app-view"}, 
+                    React.DOM.div( {className:"app-estimated-cost"}, React.DOM.span( {className:"app-cost"}, "$",this.state.total)),
+                    this._renderOptions(),
+
+                    this.state.current < 4 ? this._renderBackButton() : null
                 )
             );
         }
     });
+
+    /**
+     * Options View 
+     */
 
     // We take the `Object` with the list of options needed to get
     // the correct price.
@@ -188,8 +213,8 @@ var app = app || {};
             setTimeout(function() {
                 that.props.next();
                 that.refs.feature.getDOMNode().classList.remove("spin-out");
-            }, 500)
-
+            }, 500);
+            
             var current = this.props.current,
                 collSize = selectedOptions.length; // collection size
 
@@ -243,6 +268,10 @@ var app = app || {};
         } 
     });
 
+    /**
+     * Total View 
+     */
+
     var TotalView = React.createClass({displayName: 'TotalView',
         _renderList: function() {
             return this.props.data.map(function(option) {
@@ -294,6 +323,140 @@ var app = app || {};
         }
     });
 
+    /**
+     * Multi Options View 
+     */
+
+    // Multi options
+    // Need to add all the features list to the TotalView, and the cost of all features inside the TotalCost
+    // Create the mini routing system with this evaluations too
+    var MultiOptionsView = React.createClass({displayName: 'MultiOptionsView',
+        getInitialState: function() {
+            return { 
+                data: [
+                    "What Important Features/Functionality Do You Want/Need? (check all that apply)",
+                    { feature: "SEO Friendly", price: 190}, 
+                    { feature: "Blog", price: _wordpress ? 0 : 285 }, 
+                    { feature: "Submit Form", price: 190 },
+                    { feature: "Secure Login Access", price: 190 },
+                    { feature: "Database", price: 285 },
+                    "What Information Will You Provide? (check all that apply)",
+                    { feature: "My Logo As Vector Art", price: -95}, 
+                    { feature: "Copy or Text For Eeach Page", price: -95 }, 
+                    { feature: "Images or Graphics to use in Design", price: -95 }
+                ] 
+            };
+        },
+
+        _getChildrensTotal: function() {
+            var sum = 0,
+                total = [],
+                $els = $('.app-multi-options');
+
+            // if multi options form is present then...
+            if ($els) {
+                $.each($els.find('input[type="checkbox"]:checked'), function() {
+                    total.push($(this).val());
+                });
+
+                // if array contains at least one element... because reduce can't evaluate empty arrays
+                if (total.length > 0) {
+                    sum = _.reduce(total, function(previousValue, currentValue) {
+                        return parseInt(previousValue) + parseInt(currentValue);
+                    });    
+
+                    return sum;
+                } else {
+                    return 0;
+                }
+            }
+        },
+
+        _renderList: function() {
+            return this.state.data.map(function(value, key) {
+                if (value.feature) {
+                    return (
+                        Checkbox( {feature:value.feature, price:value.price, getTotal:this._getChildrensTotal, isTime:value.isTime}  )
+                    );
+                } else {
+                    console.log(value);
+                    return Separator( {data:value});
+                }
+            }.bind(this));
+        },
+
+        // This is where we save the total to the TotalView
+        _goNext: function() {
+            // get the total of the local options
+            var multiTotal = parseInt(this._getChildrensTotal());
+
+            // save it to show on the total display
+            this.props.plus(multiTotal);
+
+            // new model to save on the collection
+            var option = new app.SelectedOption({
+                section: "Aditional Features",
+                optionName: "Aditional Features.",
+                sectionCost: multiTotal,
+                image: "" 
+            });
+
+            // add the model to the collection
+            selectedOptions.add(option);
+
+            // go to total
+            location.href = "#total"; 
+        },
+
+        render: function() {
+            return (
+                React.DOM.div( {className:"app-multi"}, 
+                    React.DOM.img( {className:"adWhite-logo", src:"img/adWhite-logo.png", alt:"adWhite"} ),
+
+                    React.DOM.form( {className:"app-multi-options"}, 
+                        this._renderList()
+                    ),
+
+                    React.DOM.button( {className:"btn btn-blue btn-m", onClick:this._goNext}, "Submit"),
+
+                    React.DOM.hr(null )
+                )
+            );
+        }
+    });
+
+    var Separator = React.createClass({displayName: 'Separator',
+        render: function() {
+            return (
+                React.DOM.strong(null, this.props.data)
+            );
+        }
+    });
+
+    var Checkbox = React.createClass({displayName: 'Checkbox',
+        _getTotal: function() {
+            return this.props.getTotal();
+        },
+
+        _onChange: function(e) {
+            console.log(this._getTotal());
+        },
+
+        render: function() {
+            return (
+                React.DOM.label( {className:"control checkbox"}, 
+                    React.DOM.input( {type:"checkbox", value:this.props.price, 'data-name':this.props.feature, 'data-time':this.props.isTime || false, ref:"checkbox", onChange:this._onChange} ),
+                    React.DOM.span( {className:"control-indicator"}),
+                    this.props.feature
+                )
+            );
+        }  
+    });
+
+    /**
+     * Chosen Option View 
+     */
+
     var ChosenOptionView = React.createClass({displayName: 'ChosenOptionView',
         render: function() {
             return (
@@ -304,6 +467,10 @@ var app = app || {};
             );     
         }
     });
+
+    /**
+     * Send Quote Form 
+     */
 
     var SendQuoteForm = React.createClass({displayName: 'SendQuoteForm',
         render: function() {
@@ -317,6 +484,10 @@ var app = app || {};
             );  
         }
     });
+
+    /**
+     * Branding 
+     */
 
     var Branding = React.createClass({displayName: 'Branding',
         render: function() {
@@ -335,5 +506,6 @@ var app = app || {};
     app.IndexView = IndexView;
     app.AppView = AppView;
     app.TotalView = TotalView;
+    app.MultiOptionsView = MultiOptionsView;
     app.selectedOptions = selectedOptions;
 })(app);

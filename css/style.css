@@ -999,3 +999,22 @@ hr {
 .app-form-send-quote input[type="submit"] {
   margin-bottom: 0;
 }
+.app-multi .adWhite-logo {
+  margin-bottom: 2em;
+}
+.app-multi-options {
+  width: 35em;
+  margin: 0 auto;
+  padding: 1em;
+  border-radius: 4px;
+  text-align: left;
+}
+.app-multi-options .control {
+  margin-bottom: 0.618em;
+  display: block;
+}
+.app-multi-options strong {
+  margin-top: 1em;
+  margin-bottom: 1em;
+  display: table;
+}

@@ -74,54 +74,29 @@ var app = app || {};
                     image: "img/icons/text2.png",
                     price: 1377.5 
                 }
-           ] 
-        ],
-        features = {
-            importantFeatures: [
-                { 
-                    name: "SEO Friendly",
-                    price: 234,
-                },
-
-                { 
-                    name: "Blog",
-                    price: 214,
-                },
-
-                { 
-                    name: "Submit Form",
-                    price: 131,
-                },
-
-                { 
-                    name: "Secure Login Access",
-                    price: 283,
-                },
-
-                { 
-                    name: "Database",
-                    price: 934,
-                },
             ],
 
-            whatCurrentlyExists: [
+            // Time 
+            [
+                "Time Frame",
                 {
-                    name: "I have a logo",
-                    price: 24
+                    name: "Two Weeks or Less",
+                    image: "img/icons/text2.png",
+                    price: 475
                 },
 
                 {
-                    name: "I can provide copy",
-                    price: 43 
+                    name: "Two to Four Weeks",
+                    image: "img/icons/text2.png",
+                    price: 0 
                 },
-
                 {
-                    name: "I will provice images",
-                    price: 73
-                }
+                    name: "A Month or Longer",
+                    image: "img/icons/text2.png",
+                    price: -285
+                },
             ]
-        };
+        ];
 
     app.options = options;
-    app.features = features;
 })(app);
