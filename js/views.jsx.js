@@ -15,7 +15,6 @@ var app = app || {};
 
     var IndexView = React.createClass({
         _start: function() {
-            console.log("start!");   
             location.href = "#app";
         },
 
@@ -61,14 +60,14 @@ var app = app || {};
             // 0 is the first one, instead of 1
             var optionsSize = _.size(app.options) - 1;
 
-            console.log("current: " + this.state.current);
             // if we are in the last section, we are ready to go to the result 
             // route, and do the math
-            if (this.state.current < optionsSize) {
-                this.setState({ current: this.state.current + 1 }); 
-            } else {
-                location.href = "#multi";
-            }
+            // if (this.state.current < optionsSize) {
+            //     this.setState({ current: this.state.current + 1 }); 
+            // } else {
+            //     location.href = "#total";
+            // }
+            this.setState({ current: this.state.current + 1 }); 
         },
 
         _back: function() {
@@ -104,7 +103,6 @@ var app = app || {};
 
         _totalPlus: function(num) {
             this.setState({ total: this.state.total + num });   
-            console.log("total: " + this.state.total);
         },
 
         _totalMinus: function(num) {
@@ -118,9 +116,19 @@ var app = app || {};
         },
 
         _renderOptions: function() {
-            if (this.state.current === 4) {
+            window.current = this.state.current;
+
+            // If we used all the options go to "#total"
+            if (this.state.current === _.size(app.options) + 1) {
+                location.href = "#total";
+            } 
+            
+            // If we are at the last option, then render the `MultiOptionsView`
+            if (this.state.current === _.size(app.options)) {
                 return <MultiOptionsView plus={this._totalPlus} /> 
-            } else {
+            } 
+            
+            else {
                 return (     
                     <OptionsView 
                         data={this._getCurrentData(this.state.current)} 
@@ -139,7 +147,7 @@ var app = app || {};
                     <div className="app-estimated-cost"><span className="app-cost">${this.state.total}</span></div>
                     {this._renderOptions()}
 
-                    {this.state.current < 4 ? this._renderBackButton() : null}
+                    {this.state.current < 5 ? this._renderBackButton() : null}
                 </div>
             );
         }
@@ -157,8 +165,6 @@ var app = app || {};
     // and pass through the `name`, `price` and `image` of each element
     var OptionsView = React.createClass({
         componentDidUpdate: function() {
-            // debug purposes
-            console.log(selectedOptions);
         },
 
         _renderList: function() {
@@ -211,8 +217,8 @@ var app = app || {};
 
             var that = this;
             setTimeout(function() {
-                that.props.next();
                 that.refs.feature.getDOMNode().classList.remove("spin-out");
+                that.props.next();
             }, 500);
             
             var current = this.props.current,
@@ -229,13 +235,11 @@ var app = app || {};
                 // if everything goes well and we just go each option without going back, this
                 // will be used
                 if (current === collSize) {
-                    console.log("if");
                     selectedOptions.add(option);
                 } 
 
                 // otherwise if we go back we need to set the option at the current model
                 else {
-                    console.log("else");
                     selectedOptions.at(current).set(option);
 
                     // then we check for the other ones next to this one and delete them all
@@ -331,6 +335,22 @@ var app = app || {};
     // Need to add all the features list to the TotalView, and the cost of all features inside the TotalCost
     // Create the mini routing system with this evaluations too
     var MultiOptionsView = React.createClass({
+        componentDidMount: function() {
+            $('#app').toggleClass("relativize");   
+
+            if (app.selectedOptions.at(1).attributes.optionName === "WordPress") {
+                console.log("is WordPress");
+                _wordpress = true;
+            } else {
+                console.log("doesn't have WordPress");
+                _wordpress = false;
+            }
+        },
+
+        componentWillUnmount: function() {
+            $('#app').toggleClass("relativize");   
+        },
+
         getInitialState: function() {
             return { 
                 data: [
@@ -379,7 +399,6 @@ var app = app || {};
                         <Checkbox feature={value.feature} price={value.price} getTotal={this._getChildrensTotal} isTime={value.isTime}  />
                     );
                 } else {
-                    console.log(value);
                     return <Separator data={value}/>;
                 }
             }.bind(this));
@@ -396,9 +415,9 @@ var app = app || {};
             // new model to save on the collection
             var option = new app.SelectedOption({
                 section: "Aditional Features",
-                optionName: "Aditional Features.",
+                optionName: "Aditional Features",
                 sectionCost: multiTotal,
-                image: "" 
+                image: "img/icons/layers-2.png" 
             });
 
             // add the model to the collection
@@ -439,7 +458,7 @@ var app = app || {};
         },
 
         _onChange: function(e) {
-            console.log(this._getTotal());
+            console.log("total: " + this._getTotal());
         },
 
         render: function() {
@@ -473,12 +492,50 @@ var app = app || {};
      */
 
     var SendQuoteForm = React.createClass({
+        componentDidMount: function() {
+            this.$form = $('.app-form-send-quote');
+            this.$form.validate({
+                rules: {
+                    name: "required",
+                    email: {
+                        required: true,
+                        email: true
+                    },
+                    copyto: {
+                        required: true,
+                        email: true
+                    }
+                },
+                messages: {
+                    name: "Please specify your name",
+                    email: {
+                        required: "We need your email to contact you",
+                        email: "Your email must be in the format of name@domain.com"
+                    }
+                },
+                errorPlacement: function(error, element) {
+                    $(element).before(error);
+                }
+            }); 
+        },
+
+        _submitForm: function(e) {
+            if (this.$form.valid()) {
+                console.log("submit!");
+                // $.ajax({});
+            } else {
+                console.log("invalid!");
+            }
+
+            e.preventDefault();    
+        },
+
         render: function() {
             return (
-                <form className="app-form-send-quote">
-                    <input type="text" placeholder="Your Name"/>
-                    <input type="text" placeholder="Your E-Mail"/>
-                    <input type="text" placeholder="Copy to yourself or someone else?"/>
+                <form className="app-form-send-quote" ref="form" onSubmit={this._submitForm} >
+                    <input name="name" type="text" placeholder="Your Name" />
+                    <input name="email"type="text" placeholder="Your E-Mail" />
+                    <input name="copyto" type="text" placeholder="Copy to yourself or someone else?" />
                     <input className="btn-green btn-m" type="submit" />
                 </form>
             );  

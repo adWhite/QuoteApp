@@ -81,20 +81,20 @@ var app = app || {};
                 "Time Frame",
                 {
                     name: "Two Weeks or Less",
-                    image: "img/icons/text2.png",
+                    image: "img/icons/watch.png",
                     price: 475
                 },
 
                 {
                     name: "Two to Four Weeks",
-                    image: "img/icons/text2.png",
+                    image: "img/icons/alarm-clock.png",
                     price: 0 
                 },
                 {
                     name: "A Month or Longer",
-                    image: "img/icons/text2.png",
+                    image: "img/icons/clock.png",
                     price: -285
-                },
+                }
             ]
         ];
 
