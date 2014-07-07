@@ -8,13 +8,15 @@ var app = app || {};
         IndexView = app.IndexView,
         AppView = app.AppView,
         TotalView = app.TotalView,
+        ThankYouPageView = app.ThankYouPageView,
         MultiOptionsView = app.MultiOptionsView,
 
         Routes = Backbone.Router.extend({
             routes: {
                 "": "index",
                 "app": "app",
-                "total": "total"
+                "total": "total",
+                "thank-you": "thank-you"
             },
 
             initialize: function() {
@@ -42,6 +44,10 @@ var app = app || {};
                 } else {
                     React.renderComponent(TotalView( {data:app.selectedOptions.models, total:total} ), appEl);
                 }
+            },
+
+            "thank-you": function() {
+              React.renderComponent(ThankYouPageView(null ), appEl);
             }
         });
 

@@ -711,6 +711,30 @@ blockquote {
     transform: matrix3d(0.8, 0, 0, 0, 0, 0.8, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
   }
 }
+@font-face {
+  font-family: AvenirNextLTPro-Regular;
+  src: url("../fonts/AvenirNextLTPro-Regular.otf") format("opentype");
+}
+@font-face {
+  font-family: AvenirNextLTPro-Medium;
+  src: url("../fonts/AvenirNextLTPro-Medium.otf") format("opentype");
+}
+@font-face {
+  font-family: AvenirNextLTPro-MediumIt;
+  src: url("../fonts/AvenirNextLTPro-MediumIt.otf") format("opentype");
+}
+@font-face {
+  font-family: AvenirNextLTPro-It;
+  src: url("../fonts/AvenirNextLTPro-It.otf") format("opentype");
+}
+@font-face {
+  font-family: AvenirNextLTPro-UltLt;
+  src: url("../fonts/AvenirNextLTPro-UltLt.otf") format("opentype");
+}
+@font-face {
+  font-family: AvenirNextLTPro-UltLtIt;
+  src: url("../fonts/AvenirNextLTPro-UltLtIt.otf") format("opentype");
+}
 .col-1-2 {
   float: left;
   width: 48.5%;
@@ -726,9 +750,16 @@ blockquote {
   width: 31.333333333333332%;
   margin-right: 3%;
 }
+._hidden {
+  opacity: 0;
+}
+.background-transparent {
+  background-color: rgba(255, 255, 255, 0.3);
+}
 .btn {
   margin: 0 auto;
-  padding: 1em 2em;
+  padding: 1em 2em 0.8em 2em;
+  font-family: "AvenirNextLTPro-Regular", sans-serif;
   background-color: #333333;
   color: #ffffff;
   border-radius: 4px;
@@ -748,9 +779,40 @@ blockquote {
 .btn-b {
   font-size: 1.618em;
 }
+.btn-black {
+  margin: 0 auto;
+  padding: 1em 2em 0.8em 2em;
+  font-family: "AvenirNextLTPro-Regular", sans-serif;
+  background-color: rgba(0, 0, 0, 0.1);
+  color: #333333;
+  border-radius: 4px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  -webkit-transition: 0.5s all;
+  transition: 0.5s all;
+}
+.btn-black:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+.btn-black:hover {
+  margin: 0 auto;
+  padding: 1em 2em 0.8em 2em;
+  font-family: "AvenirNextLTPro-Regular", sans-serif;
+  background-color: rgba(0, 0, 0, 0.3);
+  color: #333333;
+  border-radius: 4px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+.btn-black:hover:hover {
+  background-color: rgba(0, 0, 0, 0.3);
+}
 .btn-green {
   margin: 0 auto;
-  padding: 1em 2em;
+  padding: 1em 2em 0.8em 2em;
+  font-family: "AvenirNextLTPro-Regular", sans-serif;
   background-color: #2ecc71;
   color: #ffffff;
   border-radius: 4px;
@@ -763,7 +825,8 @@ blockquote {
 }
 .btn-blue {
   margin: 0 auto;
-  padding: 1em 2em;
+  padding: 1em 2em 0.8em 2em;
+  font-family: "AvenirNextLTPro-Regular", sans-serif;
   background-color: #2980b9;
   color: #ffffff;
   border-radius: 4px;
@@ -774,9 +837,24 @@ blockquote {
 .btn-blue:hover {
   background-color: #2472a4;
 }
+.btn-orange {
+  margin: 0 auto;
+  padding: 1em 2em 0.8em 2em;
+  font-family: "AvenirNextLTPro-Regular", sans-serif;
+  background-color: #e67e22;
+  color: #ffffff;
+  border-radius: 4px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+.btn-orange:hover {
+  background-color: #d67118;
+}
 .btn-blue-dark {
   margin: 0 auto;
-  padding: 1em 2em;
+  padding: 1em 2em 0.8em 2em;
+  font-family: "AvenirNextLTPro-Regular", sans-serif;
   background-color: #34495e;
   color: #ffffff;
   border-radius: 4px;
@@ -802,7 +880,9 @@ blockquote {
   transform: translate(-50%, -50%);
 }
 body {
-  font-family: "Open Sans", sans-serif;
+  font-family: "AvenirNextLTPro-Regular", sans-serif;
+  background-color: #fff;
+  color: #333;
 }
 hr {
   border-color: #eee;
@@ -815,13 +895,12 @@ hr {
 }
 .app-title {
   margin-bottom: 0 !important;
-  font-size: 4em;
-  font-weight: 200;
+  font-size: 2.25em;
 }
 .app-short-description {
-  margin-top: 0 !important;
-  font-size: 1.618em;
-  font-style: italic;
+  margin-top: 2em !important;
+  font-family: "AvenirNextLTPro-UltLt", sans-serif;
+  font-size: 1.375em;
 }
 .app-button-normal,
 .app-button-go-back,
@@ -829,7 +908,8 @@ hr {
 .app-button-start {
   font-size: 1em;
   margin: 0 auto;
-  padding: 1em 2em;
+  padding: 1em 2em 0.8em 2em;
+  font-family: "AvenirNextLTPro-Regular", sans-serif;
   background-color: #333333;
   color: #ffffff;
   border-radius: 4px;
@@ -851,8 +931,7 @@ hr {
 .app-cost {
   padding: 0.218em;
   font-size: 1.618em;
-  background-color: #eee;
-  color: #999;
+  background-color: rgba(255, 255, 255, 0.3);
   border-radius: 4px;
 }
 .app-made-by {
@@ -878,9 +957,7 @@ hr {
   transform: translate(-50%, -50%);
   width: 65em;
   text-align: center;
-}
-.btn-get-started {
-  text-transform: uppercase;
+  padding: 2em;
 }
 .btn-get-started .fa {
   color: #164666;
@@ -895,7 +972,6 @@ hr {
   margin-top: 0.618em;
   font-size: 2em;
   font-weight: 400;
-  color: #888;
 }
 .app-feature {
   width: 16em;
@@ -904,7 +980,7 @@ hr {
   padding: 0.618em;
   border-radius: 4px;
   text-align: center;
-  background-color: #fafafa;
+  background-color: rgba(255, 255, 255, 0.3);
   cursor: pointer;
 }
 .app-feature:last-of-type {
@@ -931,10 +1007,12 @@ hr {
   text-align: left;
 }
 .app-chosen-options li {
+  display: table;
+  width: 100%;
   margin-bottom: 0.618em;
-  display: block;
 }
 .app-chosen-options span {
+  max-width: 20em;
   margin-top: 1.218em;
   float: right;
 }
@@ -947,12 +1025,12 @@ hr {
   padding: 0.618em 1em;
   font-size: 2em;
   font-weight: 600;
-  background: #eee;
+  background-color: rgba(255, 255, 255, 0.5);
   border-radius: 4px;
+  color: #34495e;
 }
 .asterisk-separator {
   margin: 1em 0;
-  color: #999;
 }
 .asterisk-separator .fa {
   margin-right: 1em;
@@ -964,11 +1042,9 @@ hr {
 .app-total-left {
   padding: 1em;
   border-radius: 6px;
-  color: #fff;
 }
 .app-total-left {
-  color: #333;
-  background-color: #fbfbfb;
+  background-color: rgba(255, 255, 255, 0.3);
 }
 .app-total-right {
   color: #34495e;
@@ -991,12 +1067,16 @@ hr {
   padding: 1em;
   background-color: #34495e;
   border-radius: 6px;
-  color: #fff;
 }
 .app-form-send-quote input {
   width: 100%;
   margin-bottom: 1em;
 }
+.app-form-send-quote textarea {
+  width: 100%;
+  margin-bottom: 1em;
+}
+.app-form-send-quote textarea,
 .app-form-send-quote input[type="text"] {
   display: table;
   padding: 0.618em;
@@ -1008,6 +1088,7 @@ hr {
   margin-bottom: 0;
 }
 .app-form-send-quote .error {
+  color: #e67e22;
   font-size: 0.618em;
   font-style: italic;
 }
